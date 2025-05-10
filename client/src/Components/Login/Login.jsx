@@ -1,65 +1,92 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Login.css'
 
 // Importing react-router-dom for navigation
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 // Import our assets
-import image from '../../LoginAssets/Payrollcover.jpg'
-import logo from '../../LoginAssets/Watermark.png'
+import image from '../../assets/Payrollcover.jpg'
+import logo from '../../assets/Logo.png'
 
-// Importing icons
-import { FaUserShield } from 'react-icons/fa'
-import { BsFillShieldLockFill } from 'react-icons/bs'
-import { AiOutlineSwapRight } from 'react-icons/ai'
+// Import icons
+import { FaUser, FaLock, FaQuestionCircle, FaPhone, FaSpinner } from 'react-icons/fa'
+import { MdEmail } from 'react-icons/md'
 
 const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        // Set loading state
+        setIsLoading(true);
+        
+        // Simulate API call delay
+        setTimeout(() => {
+            // Navigate to Dashboard regardless of credentials
+            navigate('/dashboard');
+        }, 1000);
+    }
+
     return (
-        <div className='loginPage flex'>
-            <div className="container flex">
-
-                <div className="imageDiv">
-                    <img src={image} alt="Payroll Cover" />
-
-                    <div className="textDiv">
-                        <h2 className='title'>Create and Sell Extraordinary Products</h2>
-                        <p>Adopt the peace of nature!</p>
+        <div className="login-container">
+            <div className="login-left">
+                <div className="cart-image">
+                    <img src={image} alt="Shopping Cart" className="background-image" />
+                </div>
+                <div className="login-info">
+                    <h2>Welcome to Prasanga Shopping Center</h2>
+                    <div className="help-section">
+                        <p>NEED HELP? LET US KNOW</p>
+                        <p><FaPhone className="phone-icon" /> +1 321 414 3344 | support@unibillcover.com</p>
                     </div>
                 </div>
-
-                <div className='formDiv flex'>
-                    <div className="headerDiv">
-                        <img src={logo} alt="Logo Image" />
-                        <h3>Welcome Back!</h3>
-                    </div>
-
-                    <form action="" className='form grid'>
-                        <span>Login status will go here</span>
-
-                        <div className="inputDiv">
-                            <label htmlFor="username">Username</label>
-                            <div className="input flex">
-                                <FaUserShield className='icon' />
-                                <input type="text" id='username' placeholder='Enter your username' />
-                            </div>
+            </div>
+            <div className="login-right">
+                <div className="logo-container">
+                    <img src={logo} alt="Logo" className="logo" />
+                </div>
+                <div className="login-form-container">
+                    <form onSubmit={handleSubmit} className="login-form">
+                        <div className="form-group">
+                            <input 
+                                type="text" 
+                                placeholder="Email/Mobile Number"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
                         </div>
-
-                        <div className="inputDiv">
-                            <label htmlFor="password">Password</label>
-                            <div className="input flex">
-                                <BsFillShieldLockFill className='icon' />
-                                <input type="password" id='password' placeholder='Enter your password' />
-                            </div>
+                        <div className="form-group">
+                            <input 
+                                type="password" 
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
                         </div>
-                        
-                        <button type='submit' className='btn flex'>
-                            <span>Login</span>
-                            <AiOutlineSwapRight className='icon' />
+                        <button 
+                            type="submit" 
+                            className="login-btn" 
+                            disabled={isLoading}
+                        >
+                            {isLoading ? (
+                                <span className="loading-text">
+                                    <FaSpinner className="spinner-icon" /> Logging in...
+                                </span>
+                            ) : 'LOG IN'}
                         </button>
-
-                        <span className='forgotPassword'>
-                            Forgot your passsword <a href="">Click Here</a>
-                        </span>
+                        <div className="signup-option">
+                            <p>Don't have an account?</p>
+                            <Link to="/signup" className="signup-btn">SIGN UP</Link>
+                        </div>
+                        <div className="forgot-password">
+                            <Link to="/forgot-password">Forgot your password?</Link>
+                        </div>
                     </form>
                 </div>
             </div>
