@@ -5,7 +5,6 @@ import { IUser } from "../interfaces";
 
 export const createUser = async (user: IUser) => {
   try {
-    console.log("User data:", user);
     const newUser = await User.create({ ...user });
     return newUser;
   } catch (error) {
@@ -16,6 +15,14 @@ export const createUser = async (user: IUser) => {
 export const getUserById = async (id: number) => {
   try {
     const user = await User.findByPk(id);
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+export const findUserByEmail = async (email: string) => {
+  try {
+    const user = await User.findOne({ where: { email } });
     return user;
   } catch (error) {
     throw error;
